@@ -1,6 +1,7 @@
 const { Deepgram } = require("@deepgram/sdk");
 
-const deepgram = new Deepgram("8cf87419013ce83c5d1f29ed82aeb38c20459498");
+// add api key
+const deepgram = new Deepgram("");
 
 export default async function handler(req, res) {
   try {
@@ -9,9 +10,15 @@ export default async function handler(req, res) {
         buffer: Buffer.from(req.body, "base64"),
         mimetype: "audio/mpeg",
       },
-      { punctuate: true, numerals: true, ner: true, diarize: true ,utterances:true}
+      {
+        punctuate: true,
+        numerals: true,
+        ner: true,
+        diarize: true,
+        utterances: true,
+      }
     );
-    console.log(results)
+    console.log(results);
     res.status(200).json({ body: JSON.stringify(results) });
   } catch (err) {
     res.status(500).json({ body: String(err) });

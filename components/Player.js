@@ -59,12 +59,12 @@ const Player = ({ audio, audioWaveForm, dGTranscript }) => {
 
   return (
     <div className={styles.wrapper}>
-      {/* <h2 className={styles.time}>
+      <h2 className={styles.time}>
         {currentTime}/{audioLength}
       </h2>
-      <h3 className={styles.title}>
+      {/* <h3 className={styles.title}>
         {audio ? audio.name : "DEV X Deepgram hackathon.mp3"}
-      </h3> */}
+      </h3> */} 
       <div className={styles.player}>
         <img
           className={styles.ffStop}
