@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect , useRef} from "react";
 import WordInText from "./WordInText";
 import ViewSplitter from "../components/ViewSplitter";
 import Sentiment from "sentiment";
@@ -9,23 +9,34 @@ import getTotalActions from "../helpers/getTotalActions";
 import getTotalSpeakers from "../helpers/getTotalSpeakers";
 import getThousandFormat from "../helpers/getThousandFormat";
 
-import { transcription } from "../data/transcription";
+// import { transcription } from "../data/transcription";
 import styles from "./Overview.module.css";
+import { transcription } from "../data/transcription.js";
 
 const Overview = ({ audioWaveForm, dGTranscript }) => {
   const [currentTime, setCurrentTime] = useState(0);
   const [transcript, setTranscript] = useState(transcription);
-
-  let doc = nlp(transcript.transcript);
-  const sentiment = new Sentiment();
-  const analysis = sentiment.analyze(transcript.transcript);
+  const [isScrolling, setIsScrolling] = useState(false);
+  const transcriptContainerRef = useRef(null);
+  // let doc = nlp(transcript.transcript);
+  // const sentiment = new Sentiment();
+  // const analysis = sentiment.analyze(transcript.transcript);
 
   useEffect(() => {
-    if (audioWaveForm) {
-      setCurrentTime(0);
+    if (audioWaveForm && transcriptContainerRef.current) {
+      // setCurrentTime(0);
+      const currentTime = audioWaveForm.current.getCurrentTime();
+      const transcriptContainer = transcriptContainerRef.current;
       const timer = setInterval(() => {
         if (audioWaveForm) {
           setCurrentTime(audioWaveForm.current.getCurrentTime());
+          const scrollPosition =
+      transcriptContainer.scrollHeight *
+      (currentTime / audioWaveForm.current.getDuration()) -
+      transcriptContainer.clientHeight / 2;
+
+    // Set the scroll position
+    transcriptContainer.scrollTop = scrollPosition;
         }
       }, 100);
 
@@ -33,17 +44,18 @@ const Overview = ({ audioWaveForm, dGTranscript }) => {
         clearInterval(timer);
       };
     }
-  }, [audioWaveForm]);
+  }, [audioWaveForm,currentTime]);
 
   useEffect(() => {
     if (dGTranscript) {
       setTranscript(dGTranscript);
+      // console.log(transcript)
     }
   }, [dGTranscript]);
 
   return (
-    <ViewSplitter>
-      <div>
+    <>
+      {/* <div>
         <div className={styles.wrapper}>
           <div>
             <h1>{getThousandFormat(transcript.transcript.length)}</h1>
@@ -96,25 +108,33 @@ const Overview = ({ audioWaveForm, dGTranscript }) => {
             <h3 className={styles.category}>Speakers</h3>
           </div>
         </div>
-      </div>
-      <div style={{ maxHeight: "220px", overflowY: "scroll" }}>
-        {transcript.words.map((el, index) => {
+      </div> */}
+      <div ref={transcriptContainerRef} style={{ maxHeight: "220px", overflowY: "scroll" }}>
+        {/* {transcript} */}
+        {transcript.map((utternace, index) => {
           return (
             <WordInText
               key={index}
-              word={el.punctuated_word}
-              color={currentTime >= el.start ? "#0d76ff" : "#595970"}
+              trans={utternace.transcript}
+              speaker={utternace.speaker}
+              color={
+                currentTime >= utternace.start
+                  ? utternace.speaker === 0
+                    ? "#0d76ff"
+                    : "#00ffff"
+                  : "#595970"
+              }
               onClick={() => {
                 audioWaveForm.current.skip(
-                  el.start - audioWaveForm.current.getCurrentTime()
+                  utternace.start - audioWaveForm.current.getCurrentTime()
                 );
-                setCurrentTime(el.start);
+                setCurrentTime(utternace.start);
               }}
             />
           );
         })}
       </div>
-    </ViewSplitter>
+    </>
   );
 };
 

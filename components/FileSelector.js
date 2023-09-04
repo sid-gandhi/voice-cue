@@ -31,7 +31,8 @@ function DragDrop({ setAudio, setDGTranscript }) {
       })
         .then((response) => response.json())
         .then((result) => {
-          setDGTranscript(JSON.parse(result.body).channels[0].alternatives[0]);
+          setDGTranscript(JSON.parse(result.body).utterances);
+          // console.log(JSON.parse(result.body).channels[0].alternatives[0])
           setLoading(false);
         })
         .catch((error) => {

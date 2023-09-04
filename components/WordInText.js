@@ -1,13 +1,13 @@
 import styles from "./WordInText.module.css";
 
-const WordInText = ({ word, time, onClick, color }) => {
+const WordInText = ({ trans, time, onClick, color ,speaker}) => {
   return (
     <div
       className={styles.wrapper}
       onClick={onClick}
       style={{ color: `${color}` }}
     >
-      {word}
+      {speaker===0? "AGENT":"HUMAN"}: {trans}
     </div>
   );
 };

@@ -20,7 +20,7 @@ const WaveForm = ({ url, setAudioWaveForm }) => {
         progressColor: "#0d76ff",
         barGap: 2,
         barWidth: 3,
-        barRadius: 3,
+        barRadius: 2,
         height: 150,
         cursorWidth: 3,
         cursorColor: "tomato",

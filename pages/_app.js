@@ -13,7 +13,7 @@ function MyApp({ Component, pageProps }) {
       <ContentWrapper>
         <Component {...pageProps} />
       </ContentWrapper>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }

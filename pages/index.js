@@ -31,39 +31,39 @@ export default function Home() {
 
   return (
     <div className={styles.container}>
-      <ViewSplitter>
-        <div>
+      {/* <ViewSplitter> */}
+        {/* <div>
           <h1 className={styles.title}>Decode the voice with VoiceCue</h1>
           <h3 className={styles.subtitle}>
             Find sentiments, tags, entities, actions instantly
           </h3>
           <FileSelector setAudio={setAudio} setDGTranscript={setDGTranscript} />
-        </div>
-        <div style={{ display: "grid", placeItems: "center end" }}>
+        </div> */}
+        <div style={{ display: "grid", placeItems: "center " }}>
           <Player
             audio={audio}
             audioWaveForm={audioWaveForm}
             dGTranscript={dGTranscript}
           />
         </div>
-      </ViewSplitter>
+      {/* </ViewSplitter> */}
       <WaveForm
-        url={!audio ? "samples/demo.mp3" : audio}
+        url={!audio ? "samples/kartik.mp3" : audio}
         setAudioWaveForm={setAudioWaveForm}
       />
       <Tabs className={styles.tabs}>
         <TabList>
-          <Tab>Overview</Tab>
-          <Tab>Sentiment</Tab>
+          <Tab>Transcript</Tab>
+          {/* <Tab>Sentiment</Tab>
           <Tab>Tag Cloud</Tab>
           <Tab>Entities</Tab>
           <Tab>Actions</Tab>
-          <Tab>Search</Tab>
+          <Tab>Search</Tab> */}
         </TabList>
         <TabPanel>
           <Overview audioWaveForm={audioWaveForm} dGTranscript={dGTranscript} />
         </TabPanel>
-        <TabPanel>
+        {/* <TabPanel>
           <Sentiments
             audioWaveForm={audioWaveForm}
             dGTranscript={dGTranscript}
@@ -80,7 +80,7 @@ export default function Home() {
         </TabPanel>
         <TabPanel>
           <Search audioWaveForm={audioWaveForm} dGTranscript={dGTranscript} />
-        </TabPanel>
+        </TabPanel> */}
       </Tabs>
     </div>
   );
